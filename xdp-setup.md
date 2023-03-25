@@ -3,37 +3,45 @@
 
 
 ## Commands 
-xpd virtion_net Paravirtualized Network interface
+
+Check to see if XDP is enabled in the kernel. XDP has been supported by kernel>4.8
 ```bash
-git clone https://github.com/libbpf/libbpf.git
-libbpf0 libbpfcc libbpf-dev libxdp libxdp-devel xdp-tools bpftool libc6-dev-i386
-cd libbpf/src
-make && make install
-make install_headers
-ldconfig
-cd xdp
+grep -i CONFIG_XDP_SOCKETS /boot/config-$(uname -r)
+```
+It is also important that your NIC also should have support XDP. unless you can run it only in generic mode
+
+Reduce MTU to which XDP can supports 
+```bash
+sudo ip link set dev ens37 mtu 3818
+```
+Create a file named main.c and :
+```c
+include <linux/bpf.h>
+#define SEC(NAME) __attribute__((section(NAME), used))
+SEC("prog")
+int  xdp_prog_simple(struct xdp_md *ctx)
+{
+return XDP_DROP;
+}
+char _license[] SEC("license") = "GPL";
+```
+For building XDP object file you need clang compiler
+```bash
 clang -o2 -g -Wall -target bpf -c main.c -0 main
 ```
-Run the following commands to check the flags:
+If you couldn't build the file , try running the below commands
 ```bash
-sudo ethtool -k enp0s10 | grep rx
-sudo ethtool -k enp0s10 | grep sum
-sudo ethtool -k enp0s10 | grep tx
-sudo ethtool -k enp0s10 | grep gro
+sudo apt install pkg-config m4 libelf-dev libpcap-dev gcc-multilib
 ```
-And for turnining them all down:
+For binding it to NIC in Native mode which is recommended
 ```bash
-sudo ethtool -K enp0s10 rx tx gro sum off
+sudo ip link set dev ens37 xdpdrv object main.o sec xdp_drop
 ```
-If you want to bind it in Native mode to interface(recommended):
+If your NIC doesn't support it, use the following command to bind it in Generic mode:
 ```bash
-sudo ip link set dev enp0 xdpdrv object main.o sec xdp_drop
-```
-Or if your NIC doesn't support it, use the following command to bind it in Generic mode:
-```bash
-sudo ip link set dev enp0 xdpgeneric object main.o sec xdp_drop
+sudo ip link set dev  ens37 xdpgeneric object main.o sec xdp_drop
 ```
 And for unbinding the byte code and reset the NIC:
 ```bash 
-sudo ip link set dev enp0 xdp off
+sudo ip link set dev ens37 xdp off
 ```

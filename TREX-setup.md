@@ -1,5 +1,5 @@
 
-sudo ./dpdk_setup_ports.py -c 02:01.0 02:06.0
+sudo ./dpdk_setup_ports.py -c 02:05.0 02:06.0
 we can use interface's name instead of MAC.
 low end laptio. we can use threads assigned to specific cores.
 Your system should have at least 3 cores for 2 interfaces, and it has: 2
