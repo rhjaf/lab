@@ -9,8 +9,7 @@ Create additional interface so you can connect to internet from your VM and also
 ### platform : Ubuntu 22.04, 2GB RAM, 2 cores
 ## Commands
 ```bash
-sudo apt install net-tools git clang llvm gcc  kerenl-headers build-essential meson ninja 
-python3-pyelftools libnuma-dev pkgconf
+sudo apt install net-tools git clang llvm gcc  kerenl-headers build-essential meson ninja python3-pyelftools libnuma-dev pkgconf
 cd opt
 git clone https://github.com/DPDK/dpdk.git
 cd dpdk
