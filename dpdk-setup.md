@@ -11,7 +11,8 @@ Create additional interface so you can connect to internet from your VM and also
 ```bash
 sudo apt install net-tools git clang llvm gcc  kerenl-headers build-essential meson ninja python3-pyelftools libnuma-dev pkgconf
 cd opt
-wget https://fast.dpdk.org/rel/dpdk-22.11.1.tar.xz
+wget --no-check-certificate http://fast.dpdk.org/rel/dpdk-22.11.1.tar.xz
+tar -xf dpdk-22.11.1.tar.xz
 cd dpdk
 meson build
 ninja -C build
