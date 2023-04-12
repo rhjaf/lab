@@ -1,0 +1,5 @@
+make
+simple -w 00.1 -w 01.1 : -w means PCI devices
+diff --git simple.c simple2.c
+
+lcore management. if not provided DPDK will use all cores: --lcore="0,1" ==> 1 in endless loop 
