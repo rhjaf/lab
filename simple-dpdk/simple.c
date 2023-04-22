@@ -1,4 +1,4 @@
-+#include <stdio.h>
+#include <stdio.h>
 #include <rte_eal.h>
 #include <rte_common.h>
 #include <rte_ethdev.h>
@@ -44,7 +44,7 @@ static void simple_mac_swap(struct rte_mbuf **bufs, uint16_t nb_mbufs) {
 		m = bufs[buf];
 		eth = rte_pktmbuf_mtod(m, struct ether_hdr *);
 		ether_addr_copy(&eth->s_addr, &tmp);
-		ether_addr_copy(&eth->s_addr, &tmp);
+		ether_addr_copy(&eth->d_addr, &eth->s_addr);
 		ether_addr_copy(&tmp, &eth->d_addr);
 
 	}
