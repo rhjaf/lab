@@ -35,7 +35,7 @@ dpdk-devbind.py -s : check again
 Loading UIO driver module. we use uio because vfio has some issues inside vms.
 ```bash
 modprobe uio
-modprobe uio_pci_generic
+modprobe igb_uio
 ```
 Check the device again:
 ```bash
@@ -43,7 +43,7 @@ dpdk-devbind.py -s : check again
 ```
 Add module UIO to PCIe device:
 ```bash
-dpdk-devbind.py -b uio_pci_generic 0000:00:08.0
+dpdk-devbind.py -b igb_uio 0000:00:08.0
 ```
 Check the device again:
 ```bash
@@ -68,4 +68,8 @@ cd build
 As you know, we should setup some EAL parameters, that are necessary. We specify the number of cores to run (lcore 0 and lcore 1) and the number of Memory channels-RAM slots- that it can use as 2. ( if you need info for your device use:`htop` , `meminfo`, `lstopo`)
 ```bash
 sudo ./helloworld -l 0-1 -n 2 
+```
+for some applications, for example testpmd, you may need to set (limit) the size of mbuf pool (it should be greater than 1024 and less than 3500):
+```bash
+sudo dpdk-testpmd -l 0-1 -- --total-num-mbufs=1025
 ```
