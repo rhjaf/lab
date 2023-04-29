@@ -27,7 +27,7 @@ char _license[] SEC("license") = "GPL";
 ```
 For building XDP object file you need clang compiler
 ```bash
-clang -o2 -g -Wall -target bpf -c main.c -0 main
+clang -O2 -g -Wall -target bpf -c main.c -o main.o
 ```
 If you couldn't build the file , try running the below commands
 ```bash
@@ -35,7 +35,7 @@ sudo apt install pkg-config m4 libelf-dev libpcap-dev gcc-multilib
 ```
 For binding it to NIC in Native mode which is recommended
 ```bash
-sudo ip link set dev ens37 xdpdrv object main.o sec xdp_drop
+sudo ip link set dev ens37 xdpdrv object main.o sec prog
 ```
 If your NIC doesn't support it, use the following command to bind it in Generic mode:
 ```bash
