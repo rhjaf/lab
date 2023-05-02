@@ -56,12 +56,8 @@ NOTE!!! after that you can setup a queue(rx or tx) on a port and allocating memb
 rte_eth_rx_queue_setup(....)
 rte_eth_dev_start(port)
 ```
-3rd parameter is port configuaration, for example:
-```c
-struct rte_eth_conf port_conf = {
-    .rxmode = { .max_rx_pkt_len = RTE_ETHER_MAX_LEN }
-  };
-```
+3rd parameter is port configuaration.
+
 logging
 ```c
 rte_exit(EXIT_FAILURE,"Invalid port number\n");
