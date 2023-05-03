@@ -8,7 +8,7 @@ In this guide I will show you how to setup a Ubuntu Machine that uses DPDK :two:
 
 Create additional interface so you can connect to internet from your VM and also may be able to SSH to it.
 
-### platform : Ubuntu 22.04, 2GB RAM, 2 cores
+### platform : Ubuntu 22.04, 6GB RAM, 4 cores, 5 NICs (Recommended : 1+even)
 ## Commands
 ```bash
 sudo apt install net-tools git clang llvm gcc  kerenl-headers build-essential meson ninja python3-pyelftools libnuma-dev pkgconf
