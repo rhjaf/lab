@@ -73,3 +73,8 @@ for some applications, for example testpmd, you may need to set (limit) the size
 ```bash
 sudo dpdk-testpmd -l 0-1 -- --total-num-mbufs=1025
 ```
+for running `l2fwd` example on 2 ports, first you should probably change the virtual machine NIC type to `vmxnet3`. In VMware for doing that, you should modify `.vmx` file of that machine and change the `.virtualdev` of the designated NIC.eg: `ethernet1.virtualdev = "vmxnet3"`
+Now run application on 2 ports. (`-p` is for portmask)(NOTE that you should have generated traffic to these ports![TREX](https://github.com/rhjaf/lab/edit/main/trex-setup.md)) 
+```bash
+sudo ./l2fwd -- -p 0x3
+```
