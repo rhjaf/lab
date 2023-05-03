@@ -51,7 +51,7 @@ Check the device again:
 ```bash
 dpdk-devbind.py -s
 ```
-Now we build a sample 'helloworld' example:
+Now we build a sample `helloworld` example:
 ```bash
 cd dpdk/examples/helloworld
 sudo make
