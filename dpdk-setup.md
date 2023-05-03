@@ -71,7 +71,7 @@ As you know, we should setup some EAL parameters, that are necessary. We specify
 ```bash
 sudo ./helloworld -l 0-1 -n 2 
 ```
-for some applications, for example testpmd, you may need to set (limit) the size of mbuf pool (it should be greater than 1024 and less than 3500):
+for some applications, for example `testpmd`, you may need to set (limit) the size of `mbuf` pool (it should be greater than 1024 and less than 3500):
 ```bash
 sudo dpdk-testpmd -l 0-1 -- --total-num-mbufs=1025
 ```
