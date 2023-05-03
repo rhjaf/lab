@@ -32,7 +32,7 @@ ifconfig enps down
 ```
 Check the device agagin:
 ```bash
-dpdk-devbind.py -s : check again
+dpdk-devbind.py -s 
 ```
 Loading UIO driver module. we use uio because vfio has some issues inside vms.
 ```bash
@@ -41,7 +41,7 @@ modprobe igb_uio
 ```
 Check the device again:
 ```bash
-dpdk-devbind.py -s : check again
+dpdk-devbind.py -s
 ```
 Add module UIO to PCIe device:
 ```bash
@@ -49,7 +49,7 @@ dpdk-devbind.py -b igb_uio 0000:00:08.0
 ```
 Check the device again:
 ```bash
-dpdk-devbind.py -s : check again
+dpdk-devbind.py -s
 ```
 Now we build a sample 'helloworld' example:
 ```bash
