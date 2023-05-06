@@ -81,3 +81,7 @@ you can also get id of specific socket id
 ```c
 rte_eth_dev_socket_id(port);
 ```
+burst packets, it can also be used for TX: ( default number of 32 is prefered for many scenarios)
+```c
+static inline uint16_t rte_eth_rx_burst(uint8_t port_id,uint16_t queue_id, struct rte_mbuf **rx_pkts, const uint16_t nb_pkts);
+```
