@@ -25,10 +25,10 @@ get number of available ports
 ```c
 u_int8_t number_of_ports = rte_eth_dev_count_avail();
 ```
-allocate mempool buffer for
+allocate mbuf mempool (contains a set of mbuf objects used for storing packets) buffer for each NUMA socket:
 ```c
 struct rte_mempool *mbuf_pool;
-mbuf_pool = rte_pktmbuf_pool_create("MBUF_POOL",number_of_mbufs_for_each_port * number_of_ports, MBUF_CACHE_SIZE, 0, RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id());
+mbuf_pool = rte_pktmbuf_pool_create("MBUF_POOL",number_of_mbufs_for_each_port * number_of_ports, MEMPOOL_CACHE_SIZE, 0, RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id());
 ```
 for allocating buffers from this pool, so you can put receiving `burst` packets inside it
 ```c
