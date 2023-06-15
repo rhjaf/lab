@@ -48,9 +48,3 @@ to enable as IPS
 ```bash
 ./configure --enable-nfqueue --prefix=/usr --sysconfdir=/etc --localstatedir=/var
 ```
-
-```bash
-make -j 10
-make install
-ldconfig
-```
