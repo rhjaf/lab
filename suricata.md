@@ -1,4 +1,4 @@
-#How to Install Suricata 🕵️‍♂️  7️⃣.0️⃣.0️⃣💨rc2-dev  
+# How to Install Suricata  7️⃣.0️⃣.0️⃣💨rc2-dev  🕵️‍♂️
 [![License](https://img.shields.io/badge/License-GNU%20GPL-blue)](https://opensource.org/license/gpl-3-0/)
 
 ```bash
