@@ -1,3 +1,6 @@
+# Trex Setup
+
+First, you should configure the ports you wonna use for Trex
 ```bash
 sudo ./dpdk_setup_ports.py -c 02:05.0 02:06.0
 ```
