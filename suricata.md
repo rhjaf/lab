@@ -24,7 +24,7 @@ export PATH=$PATH:/root/.cargo/bin
 ```
 Now clone latest version of Suricata in your desired directory
 ```bash
-git clone https://github.com/OSIF/suricata.git && cd suricata
+git clone https://github.com/OISF/suricata.git && cd suricata
 ```
 
 Next you need to edit enivironment variables. ( replace `/home/lubuntu/` with your current logged in user's home directory)
