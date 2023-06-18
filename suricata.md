@@ -12,9 +12,9 @@ ifconfig ens160 down
 ifconfig ens192 down
 modprobe igb
 modprobe uio_pci_generic
-dpdk-devbind -b uio_pci_generic 0000:03:00.0 
-dpdk-devbind -b uio_pci_generic 0000:0b:00.0 
-dpdk-hugepages --setup 1G
+dpdk-devbind.py -b uio_pci_generic 0000:03:00.0 
+dpdk-devbind.py -b uio_pci_generic 0000:0b:00.0 
+dpdk-hugepages.py --setup 1G
 ```
 
 Next, you  need to install cbindgen
@@ -38,6 +38,11 @@ Now we will build suricata
 ./autogen.sh
 ./configure --enable-dpdk
 make -j 5
+```
+
+If you want to contribute to Suricata, build with following options
+```bash
+CFLAGS="-O0 -ggdb -fno-omit-frame-pointer" ./configure --disable-shared --enable-debug --enable-unittests
 ```
 
 For running Suricata, in its root directory
