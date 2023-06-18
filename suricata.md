@@ -12,8 +12,8 @@ ifconfig ens160 down
 ifconfig ens192 down
 modprobe igb
 modprobe uio_pci_generic
-dpdk-devbind -b 0000:03:00.0 uio_pci_generic
-dpdk-devbind -b 0000:0b:00.0 uio_pci_generic
+dpdk-devbind -b uio_pci_generic 0000:03:00.0 
+dpdk-devbind -b uio_pci_generic 0000:0b:00.0 
 dpdk-hugepages --setup 1G
 ```
 
