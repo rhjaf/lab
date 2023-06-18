@@ -42,7 +42,7 @@ make -j 5
 
 If you want to contribute to Suricata, build with following options
 ```bash
-CFLAGS="-O0 -ggdb -fno-omit-frame-pointer" ./configure --disable-shared --enable-debug --enable-unittests
+CFLAGS="-O0 -ggdb -fno-omit-frame-pointer" ./configure --disable-shared --enable-debug --enable-unittests --enable-dpdk
 ```
 
 For running Suricata, in its root directory
