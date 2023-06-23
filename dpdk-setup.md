@@ -11,7 +11,7 @@ Create additional interface so you can connect to internet from your VM and also
 ### platform : Ubuntu 22.04 on VMWare workstation with 6GB RAM, 4 cores,and 5 NICs (Recommended : 1+even).
 ## Commands
 ```bash
-sudo apt install net-tools git clang llvm gcc  kerenl-headers build-essential meson ninja python3-pyelftools libnuma-dev pkgconf
+sudo apt install net-tools git clang llvm gcc build-essential meson python3-pyelftools libnuma-dev pkgconf
 cd opt
 wget --no-check-certificate http://fast.dpdk.org/rel/dpdk-22.11.1.tar.xz
 tar -xf dpdk-22.11.1.tar.xz
