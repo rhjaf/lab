@@ -1,6 +1,18 @@
-# Trex Setup
+# Trex 🦖 Setup
 
-First, you should configure the ports you wonna use for Trex
+In this guide I will show you how to setup a traffic generator Centos Machine that uses latest version of Trex.
+
+### platform : Centos 7 on VMWare workstation with 4GB RAM, 2 cores,and 3 NICs (Recommended : 1 (for management) + even).
+
+
+Notice that because Trex uses DPDK, your network driver should also support PMD driver. for that you should modify `.vmx` file of that machine and change the `.virtualdev` of the designated NIC.eg: `ethernet1.virtualdev = "vmxnet3"`
+
+Download Trex
+```bash
+wget --no-check-certificate https://trex-tgn.cisco.com/trex/release/latest
+```
+
+Then you should configure the ports you wonna use for Trex
 ```bash
 sudo ./dpdk_setup_ports.py -c 02:05.0 02:06.0
 ```
