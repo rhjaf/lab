@@ -85,3 +85,4 @@ burst packets, it can also be used for TX: ( default number of 32 is prefered fo
 ```c
 static inline uint16_t rte_eth_rx_burst(uint8_t port_id,uint16_t queue_id, struct rte_mbuf **rx_pkts, const uint16_t nb_pkts);
 ```
+Finally, You can check this blog for more info: https://ibrahimshahzad.github.io/blog
