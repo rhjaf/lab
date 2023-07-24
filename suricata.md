@@ -54,3 +54,4 @@ to enable as IPS
 ./configure --enable-nfqueue --prefix=/usr --sysconfdir=/etc --localstatedir=/var
 ```
 For more information on configuring Suricata and other things, you can visit this site 'https://jufajardini.wordpress.com/' or use Suricon videos available on YouTube.
+You can also use 'https://github.com/StamusNetworks/suricata-language-server' for Suricata code highlighting
