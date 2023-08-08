@@ -49,9 +49,13 @@ For running Suricata, in its root directory
 ```bash
 ./src/suricata -c suricata.yaml --dpdk -l /tmp/ -S /dev/null -vvv
 ```
-to enable as IPS
+to enable as IPS. (able to receive traffic and return them aftewards, either from interface to interface directly with AF_PACKET or within netfilter via NFQUEUE where you can use routing etc. click here [ℹ️](https://docs.suricata.io/en/suricata-6.0.0/setting-up-ipsinline-for-linux.html))
 ```bash
 ./configure --enable-nfqueue --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+```
+but maybe you need this following command
+```bash
+sudo apt-get -y install libnetfilter-queue-dev libnetfilter-queue1 libnfnetlink-dev libnfnetlink0
 ```
 For more information on configuring Suricata and other things, you can visit this site 'https://jufajardini.wordpress.com/' or use Suricon videos available on YouTube.
 You can also use 'https://github.com/StamusNetworks/suricata-language-server' for Suricata code highlighting
