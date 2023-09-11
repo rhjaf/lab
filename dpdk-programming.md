@@ -85,4 +85,12 @@ burst packets, it can also be used for TX: ( default number of 32 is prefered fo
 ```c
 static inline uint16_t rte_eth_rx_burst(uint8_t port_id,uint16_t queue_id, struct rte_mbuf **rx_pkts, const uint16_t nb_pkts);
 ```
+In some cases if you need to write address (IP or MAC), consider the following example:
+```C
+struct rte_flow_item_eth outer_eth_spec = {
+  .dst.addr_bytes = "\x00\x11\x22\x33\x44\x66",
+};
+```
+The address `\x00\x11\x22\x33\x44\x66` is equal to `00:11:22:33:44:66`.
+
 Finally, You can check this blog for more info: https://ibrahimshahzad.github.io/blog
