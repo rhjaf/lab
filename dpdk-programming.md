@@ -93,7 +93,7 @@ struct rte_flow_item_eth outer_eth_spec = {
 ```
 The address `\x00\x11\x22\x33\x44\x66` is equal to `00:11:22:33:44:66`.
 
-Each application can has its own specific CLI arguments, in addition to EAL default parameters
+Each application can have its own specific CLI arguments (separated by '--' from EAL arguments).
 
 
 Finally, You can check this blog for more info: https://ibrahimshahzad.github.io/blog
