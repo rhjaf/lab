@@ -85,6 +85,24 @@ burst packets, it can also be used for TX: ( default number of 32 is prefered fo
 ```c
 static inline uint16_t rte_eth_rx_burst(uint8_t port_id,uint16_t queue_id, struct rte_mbuf **rx_pkts, const uint16_t nb_pkts);
 ```
+To send packets queued up for transmission on a port and queue  and returns the number of packets successfully sent to the Ethernet device. The error callback is called for any packets which could not be sent. These packets previously buffered via the rte_eth_tx_buffer() function.
+```c
+int rte_eth_dev_configure	(	uint16_t 	port_id,
+uint16_t 	nb_rx_queue,
+uint16_t 	nb_tx_queue,
+const struct rte_eth_conf * 	eth_conf 
+)	
+```
+To buffer a single packet for future transmission on a port and queue
+
+```c
+rte_eth_tx_buffer(uint16_t 	port_id,
+uint16_t 	queue_id,
+struct rte_eth_dev_tx_buffer * 	buffer,
+struct rte_mbuf * 	tx_pkt )
+```
+
+
 In some cases if you need to write address (IP or MAC), consider the following example:
 ```C
 struct rte_flow_item_eth outer_eth_spec = {
