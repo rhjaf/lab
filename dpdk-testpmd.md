@@ -24,4 +24,4 @@ testpmd> set eth-peer  1 xx:xx:xx:xx:xx:xx
 testpmd> set eth-peer  2 xx:xx:xx:xx:xx:xx
 testpmd> start
 ```
-The forwarding modes are: io|mac|macswap|flowgen|rxonly|txonly|csum|icmpecho|noisy|5tswap|shared_rxq
+The forwarding modes are: io|mac|macswap|flowgen|rxonly|txonly|csum|icmpecho|noisy|5tswap|shared_rxq [dpdk_forwarding_modes][https://doc.dpdk.org/guides/testpmd_app_ug/testpmd_funcs.html#set-fwd]
