@@ -110,37 +110,3 @@ Finally, you can unbind it from kernel and add it to DPDK using this:
 ```bash
 dpdk-devbind -b igb_uio 0000:03:02.0
 ```
-
-
-### Extra notes
-If you have a single interface and use it as SSH but you want also to give it to DPDK (usually in cloud environment like (this)[packet.com]), you can use SR-IOV. First you should append the followings to the `GRUB_CMDLINE_LINUX` in the `/etc/default/grub`:
-```bash
-iommu=pt intel_iommu=on pci=assign-busses
-```
-then run 
-```bash
-update-grub && reboot
-```
-Now you can set the number of Virtual Functions on that interface ( virtual PCIs):
-```bash
-echo 1 > /sys/class/net/eno1/device/sriov_numvfs
-ip link set eno1 vf 0 spoofchk off
-ip link set eno1 vf 0 trust on
-```
-Run `dmesg -t` to get the mac of VF, output would be like this:
-```bash
-[Tue Mar 17 19:44:37 2020] i40e 0000:02:00.0: Allocating 1 VFs.
-[Tue Mar 17 19:44:37 2020] iommu: Adding device 0000:03:02.0 to group 1
-[Tue Mar 17 19:44:38 2020] iavf 0000:03:02.0: Multiqueue Enabled: Queue pair count = 4
-[Tue Mar 17 19:44:38 2020] iavf 0000:03:02.0: MAC address: 1a:b5:ea:3e:28:92
-[Tue Mar 17 19:44:38 2020] iavf 0000:03:02.0: GRO is enabled
-[Tue Mar 17 19:44:39 2020] iavf 0000:03:02.0 em1_0: renamed from eth0
-```
-Now you can see the new PCI NIC name:
-```bash
-lshw -businfo -class network | grep 000:03:02.0
-```
-Now you can unbind it from kernel and use it within DPDK application:
-```bash
-dpdk-devbind -b igb_uio 0000:03:02.0
-```
