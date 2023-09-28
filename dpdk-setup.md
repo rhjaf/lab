@@ -80,3 +80,33 @@ Now we can also run l2fwd application on 2 ports. (`-p` is for portmask)(NOTE th
 ```bash
 sudo ./l2fwd -- -p 0x3 -P --no-mac-updating
 ```
+
+### Some extra notes
+If you have one single interface and you use it as ssh but also you want to give it to DPDK ( regulary in cloud machines like (this)[www.packet.com], you should SR-IOV on that interface so that it seems to be like multiple PCIs. Add the following to `GRUB_CMDLINE_LINUX` in `/etc/default/grub`:
+```bash
+iommu=pt intel_iommu=on pci=assign-busses
+```
+After that run `update-grub && reboot`.
+Now we can set the number of $Virtual Functions$ (new virtual PCIs) like this:
+```
+echo 1 > /sys/class/net/eno1/device/sriov_numvfs
+ip link set eno1 vf 0 spoofchk off
+ip link set eno1 vf 0 trust on
+```
+Now type `dmesg -t` to get the MAC on VF. The output should be something like this:
+```bash
+[Tue Mar 17 19:44:37 2020] i40e 0000:02:00.0: Allocating 1 VFs.
+[Tue Mar 17 19:44:37 2020] iommu: Adding device 0000:03:02.0 to group 1
+[Tue Mar 17 19:44:38 2020] iavf 0000:03:02.0: Multiqueue Enabled: Queue pair count = 4
+[Tue Mar 17 19:44:38 2020] iavf 0000:03:02.0: MAC address: 1a:b5:ea:3e:28:92
+[Tue Mar 17 19:44:38 2020] iavf 0000:03:02.0: GRO is enabled
+[Tue Mar 17 19:44:39 2020] iavf 0000:03:02.0 em1_0: renamed from eth0
+```
+Run this to get device name
+```bash
+lshw -businfo -class network | grep 000:03:02.0
+```
+Finally, you can unbind it from kernel and add it to DPDK using this:
+```bash
+dpdk-devbind -b igb_uio 0000:03:02.0
+```
