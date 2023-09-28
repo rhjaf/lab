@@ -82,7 +82,7 @@ sudo ./l2fwd -- -p 0x3 -P --no-mac-updating
 ```
 
 ### Some extra notes
-If you have one single interface and you use it as ssh but also you want to give it to DPDK ( regulary in cloud machines like (www.packet.com)[this], you should SR-IOV on that interface so that it seems to be like multiple PCIs. Add the following to `GRUB_CMDLINE_LINUX` in `/etc/default/grub`:
+If you have one single interface and you use it as ssh but also you want to give it to DPDK ( regulary in cloud machines like [this](www.packet.com), you should SR-IOV on that interface so that it seems to be like multiple PCIs. Add the following to `GRUB_CMDLINE_LINUX` in `/etc/default/grub`:
 ```bash
 iommu=pt intel_iommu=on pci=assign-busses
 ```
