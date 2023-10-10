@@ -113,5 +113,80 @@ The address `\x00\x11\x22\x33\x44\x66` is equal to `00:11:22:33:44:66`.
 
 Each application can have its own specific CLI arguments (separated by '--' from EAL arguments).
 
+## NIC offloads (FDIR,RSS)
+### Update ( below methods are superseded by the generic flow API (rte_flow) in PMDs that implement the latter. 
+for enabling FDIR (Flow Director) on Intel Ethernet ( This traffic from 10.23.4.6 to 10.23.4.18 be placed in queue 4 ):
+```bash
+ethtool --show-features ens33 | grep ntuple
+ethtool --feature ens33 ntuple on
+ethtool --config-ntuple flow-type tcp4 src-ip 10.23.4.6 dst-ip 10.23.4.18 action 4
+```
+for enabling RSS and FDIR on a NIC ( hybrid mode):
+- First initialize the NIC ( the regular steps to set up the nic and assign it the queues have not been show):
+```c
+static struct rte_eth_conf port_conf = {
+    .rxmode = {
+        .mq_mode = ETH_MQ_RX_RSS,
+    },
+    .rx_adv_conf = {
+        .rss_conf = {
+            .rss_key = NULL,
+            .rss_hf = ETH_RSS_IP | ETH_RSS_UDP
+            ETH_RSS_TCP | ETH_RSS_SCTP,
+        },
+    }, //Enable RSS
+    fdir_conf = {;
+        .mode = RTE_FDIR_MODE_PERFECT,
+        .pballoc = RTE_FDIR_PBALLOC_64K,
+        .status = RTE_FDIR_REPORT_STATUS,
+        .mask = {
+            .VLAN_tci_mask = 0x0,
+            .ipv4_mask = {
+                .src_ip = 0xFFFFFFFF,
+                .dst_ip = 0xFFFFFFFF,
+            },
+            .ipv6_mask = {
+                .src_ip = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF},
+                .dst_ip = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF},
+            },
+            .src_port_mask = 0xFFFF,
+            .dst_port_mask = 0xFFFF,
+            .mac_addr_byte_mask = 0xFF,
+            .tunnel_type_mask = 1,
+            .tunnel_id_mask = 0xFFFFFFFF,
+        },
+        .drop_queue = 127,
+    },
+};
+```
+- Next configure FDir to your desire:
+```c
+struct rte_eth_fdir_filter arg =
+{
+    .soft_id = 1,
+    .input = {
+        .flow_type = RTE_ETH_FLOW_NONFRAG_IPV4_UDP,
+        .flow = {
+            .udp4_flow = {
+                    .ip = {
+                        .src_ip = 0x03020202, 
+                        .dst_ip = 0x05020202,
+                    }
+                    .src_port = rte_cpu_to_be_16(1024),
+                    .dst_port = rte_cpu_to_be_16(1024),
+            }
+        }
+    }
+    .action = {
+        .rx_queue = 4,
+        .behavior= RTE_ETH_FDIR_ACCEPT,
+        .report_status = RTE_ETH_FDIR_REPORT_ID,
+    }
+}
+```
+- Finally, add the FDir entry to the NIC table:
+```c
+rte_eth_dev_filter_ctrl(port, RTE_ETH_FILTER_FDIR, RTE_ETH_FILTER_ADD, &arg);
+```
 
 Finally, You can check this blog for more info: https://ibrahimshahzad.github.io/blog
