@@ -52,6 +52,8 @@ For running Suricata, in its root directory (using DPDK capture):
 ```bash
 ./src/suricata -c suricata.yaml --dpdk -l /tmp/ -S /dev/null -vvv
 ```
+Here we set the working rules to nothing. You can define your rules directory which will be used by default when running Suricata, in `suricata.yaml`. And also you can add the more roles you want with `-s` option. (`-S` will ignore the default rules directory specified in config file).
+
 to enable as IPS. (able to receive traffic and return them aftewards, either from interface to interface directly with AF_PACKET or within netfilter via NFQUEUE where you can use routing etc. click here [ℹ️](https://docs.suricata.io/en/suricata-6.0.0/setting-up-ipsinline-for-linux.html))
 ```bash
 ./configure --enable-nfqueue --prefix=/usr --sysconfdir=/etc --localstatedir=/var
