@@ -35,17 +35,19 @@ export PATH="${PATH}:/home/lubuntu/.cargo/bin"
 
 Now we will build suricata
 ```bash
+./bundle.sh
 ./autogen.sh
 ./configure --enable-dpdk
-make -j 5
+make -j4
 ```
 
 If you want to contribute to Suricata, build with following options
 ```bash
 CFLAGS="-O0 -ggdb -fno-omit-frame-pointer" ./configure --disable-shared --enable-debug --enable-unittests --enable-dpdk
 ```
+Next you need to edit desired dpdk interface in `suricata.yaml` config. also set `set-cpu-affinity` to `yes`. also you can determine worker CPU's ids in `cpu` field of `worker-cpu-set`.
 
-For running Suricata, in its root directory
+For running Suricata, in its root directory (using DPDK capture):
 ```bash
 ./src/suricata -c suricata.yaml --dpdk -l /tmp/ -S /dev/null -vvv
 ```
