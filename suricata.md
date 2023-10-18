@@ -16,6 +16,7 @@ dpdk-devbind.py -b uio_pci_generic 0000:03:00.0
 dpdk-devbind.py -b uio_pci_generic 0000:0b:00.0 
 dpdk-hugepages.py --setup 1G
 ```
+Remember to check huge-page's allocation by `dpdk-hugepages.py --show` and rerun the allocation again if needed.
 
 Next, you  need to install cbindgen
 ```bash
