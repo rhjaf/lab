@@ -1,6 +1,6 @@
 
-First of all, we should usually setup these steps:
-Setup EAL environment:
+## First steps:
+### Setup EAL environment:
 ```c
 /*
    * EAL: "Environment Abstraction Layer"
@@ -25,7 +25,7 @@ get number of available ports
 ```c
 u_int8_t number_of_ports = rte_eth_dev_count_avail();
 ```
-allocate mbuf mempool (contains a set of mbuf objects used for storing packets) buffer for each NUMA socket:
+allocate mbuf mempool (contains a set of mbuf objects used for storing packets) buffer for each NUMA socket. Every socket has a local memory:
 ```c
 struct rte_mempool *mbuf_pool;
 mbuf_pool = rte_pktmbuf_pool_create("MBUF_POOL",number_of_mbufs_for_each_port * number_of_ports, MEMPOOL_CACHE_SIZE, 0, RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id());
@@ -43,7 +43,7 @@ NOTE!!! second argument is the type of input data that you are casting from it.
 ```c
 rte_pktmbuf_mtod(bufs[i], struct rte_ether_hdr *);
 ```
-After that you can get these memory to ports and initilize them
+After that, you can get these memory to ports and initialize them
 ```c
 port_init(portid,mbuf_pool);
 ```
@@ -58,7 +58,16 @@ rte_eth_dev_start(port)
 ```
 3rd parameter is port configuaration.
 
+After NIC setup (configs, queue setup), we need to test the NIC by the peer NIC which should be powered on: 
+```c
+struct rte_eth_link link;
+rte_eth_link_get(0,&link); // 0 is port number
+```
 logging
+DPDK logging API:
+```c
+rte_log(log_level, log_priority)
+```
 ```c
 rte_exit(EXIT_FAILURE,"Invalid port number\n");
 ```
@@ -113,8 +122,8 @@ The address `\x00\x11\x22\x33\x44\x66` is equal to `00:11:22:33:44:66`.
 
 Each application can have its own specific CLI arguments (separated by '--' from EAL arguments).
 
-## NIC offloads (FDIR,RSS)
-### Update ( below methods are superseded by the generic flow API (rte_flow) in PMDs that implement the latter. 
+### NIC offloads (FDIR,RSS)
+#### Update ( below methods are superseded by the generic flow API (rte_flow) in PMDs that implement the latter. 
 for enabling FDIR (Flow Director) on Intel Ethernet ( This traffic from 10.23.4.6 to 10.23.4.18 be placed in queue 4 ):
 ```bash
 ethtool --show-features ens33 | grep ntuple
@@ -188,5 +197,33 @@ struct rte_eth_fdir_filter arg =
 ```c
 rte_eth_dev_filter_ctrl(port, RTE_ETH_FILTER_FDIR, RTE_ETH_FILTER_ADD, &arg);
 ```
+
+### CPU Affinity
+```bash
+taskset -pc 2839 
+```
+You can also isolate CPUs in kernel boot parameters
+```bash
+/etc/default/grub GRUB_CMDLINE_LINUX_DEFAULT="isolcpus=1,2,3,5-7"
+```
+### Hugpages and Memory
+DPDK will use all huge pages, to prevent it use `--socket-mem` option.
+You can see and set the number of hugepages in the directory like this: `/sys/devices/system/node/node0/hugepages/hugepages-1048576kB/nr_hugepages`.
+
+Remember to always free buffer storage of packets that have been transmitted. If they have failed, it becomes more important.
+### Drivers and IO
+Linux provides a mechanism called `UIO` (User space I/O) for users to create programs that directly control hardware. For example, registers that normally control hardware are placed in memory space that is not accessible to the user, but by using the `UIO` mechanism, they are mapped to user-space memory and can be controlled by a user-created program. DPDK realizes faster packet processing by directly controlling the NIC using `UIO`. 
+
+DPDK provides a dedicated device driver for high-speed packet processing for individual NICs using UIO, and the driver is called `PMD` (Poll Mode Driver).
+Software-based `PMD`s are also available ==> 
+- PCAP-PMD: is not a UIO driver, but a virtual driver that allows DPDK to handle kernel NIC driver. This configuration allows not only packet transmission and reception from the NIC but also packet capture and packet transmission from captured data. You can enable it in the process of DPDK compilation. `CONFIG_RTE_LIBRTE_PMD_PCAP=y` in `dpdk-version/config/common_base` file. for example, if you want to use it in the **l2fwd** example, the process of memory and CPU allocation is the same as before but since the DPDK driver is not allocated this time, it is necessary to specify which NIC is treated as DPDK port: `/build/l2fwd -c 0x3 --vdev=net_pcap0,iface=eth0 --vdev=net_pcap1,iface=eth1 -- -p `
+
+The NIC has a memory area to store received and transmitted packets. This memory area is called a **queue**. Normally, the kernel will dequeue packets received by the NIC or queue packets that it wants to send. But in DPDK, the packet itself is transferred directly from the NIC's queue to the user space (**Hugepage**)
+
+### DPDK as shared library
+Do you want to convert DPDK into a shared library?
+
+### Compile DPDK
+Makefile: If you want to compile a DPDK application, include `rte.extapp.mk`, but if you want to create a library using DPDK, include `rte.extlib.mk`.
 
 Finally, You can check this blog for more info: https://ibrahimshahzad.github.io/blog
