@@ -54,13 +54,19 @@ For running Suricata, in its root directory (using DPDK capture):
 ```
 Here we set the working rules to nothing. You can define your rules directory which will be used by default when running Suricata, in `suricata.yaml`. And also you can add the more roles you want with `-s` option. (`-S` will ignore the default rules directory specified in config file).
 
-to enable as IPS. (able to receive traffic and return them aftewards, either from interface to interface directly with AF_PACKET or within netfilter via NFQUEUE where you can use routing etc. click here [ℹ️](https://docs.suricata.io/en/suricata-6.0.0/setting-up-ipsinline-for-linux.html))
+### IPS mode
+Be able to receive traffic and return them afterward, either from interface to interface directly with AF_PACKET or within netfilter (kernel tcp/ip) stack via NFQUEUE where you can use routing etc. click here [ℹ️](https://docs.suricata.io/en/suricata-6.0.0/setting-up-ipsinline-for-linux.html))
+- NFQUEUE
 ```bash
 ./configure --enable-nfqueue --prefix=/usr --sysconfdir=/etc --localstatedir=/var
 ```
-but maybe you need this following command
+  but maybe you need this following command
 ```bash
 sudo apt-get -y install libnetfilter-queue-dev libnetfilter-queue1 libnfnetlink-dev libnfnetlink0
 ```
+  and also you may consider netfilter configurations (check the documentation)
+- DPDK
+  add  `copy-mode: ips` and you can also use `copy-iface: correspond_interface name` to forward traffic on another interface (like DPDK l2fwd). (Note that if you want to use this, the `threads` value for each interface should be same)
+    
 For more information on configuring Suricata and other things, you can visit this site 'https://jufajardini.wordpress.com/' or use Suricon videos available on YouTube.
 You can also use 'https://github.com/StamusNetworks/suricata-language-server' for Suricata code highlighting
