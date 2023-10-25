@@ -66,6 +66,7 @@ sudo apt-get -y install libnetfilter-queue-dev libnetfilter-queue1 libnfnetlink-
 ```
   and also you may consider netfilter configurations (check the documentation)
 - DPDK
+
   add  `copy-mode: ips` and you can also use `copy-iface: correspond_interface name` to forward traffic on another interface (like DPDK l2fwd). (Note that if you want to use this, the `threads` value for each interface should be same)
     
 For more information on configuring Suricata and other things, you can visit this site 'https://jufajardini.wordpress.com/' or use Suricon videos available on YouTube.
