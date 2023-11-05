@@ -110,3 +110,7 @@ Finally, you can unbind it from kernel and add it to DPDK using this:
 ```bash
 dpdk-devbind -b igb_uio 0000:03:02.0
 ```
+- If you want to unbind your NIC and give it back to Kernel. Here I use VMWare as a Hypervisor, so I bind it to `vmxnet3`:
+```bash
+dpdk-devbind.py -b vmxnet3 03:00.0
+```
