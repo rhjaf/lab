@@ -38,4 +38,21 @@ Finally, take some considerations:
  - We can also use the interface's name instead of MAC.
  - Low-end laptop. we can use threads assigned to specific cores.
 
+### TRex Stateless
+
+./t-rexx-64 --stl
+./t-rex-64 --stl --dump-interfaces: setup trex in stateless mode and shows its interfaces
+./t-rex-64 -i: run trex server in background in another tab
+====================================
+another_tab:
+./trex-console: 
+
+
+
+/home/trex/Desktop/pcaps/SAT-01-12-2018_0750
+
+/stl-sim -f stl/pcap.py --yaml
+
+
+https://trex-tgn.cisco.com/trex/doc/trex_console.html
 
