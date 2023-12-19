@@ -39,20 +39,79 @@ Finally, take some considerations:
  - Low-end laptop. we can use threads assigned to specific cores.
 
 ### TRex Stateless
-
+Start trex server with default `/etc/trex_cfg.yaml` config file (change it with `-c` option)
+```bash
 ./t-rexx-64 --stl
-./t-rex-64 --stl --dump-interfaces: setup trex in stateless mode and shows its interfaces
-./t-rex-64 -i: run trex server in background in another tab
-====================================
-another_tab:
-./trex-console: 
+```
+Setup trex in stateless mode and shows its interfaces:
+```bash
+./t-rex-64 --stl --dump-interfaces
+```
+Run trex server in the background in another tab:
+```bash
+./t-rex-64 -i
+```
+Now for connecting to the server, in another tab of same machine:
+- connect with console (Python API):
+  For remote connection use `-s`
+```bash
+./trex-console
+```
+Sample profile:
+```python
+from trex_stl_lib.api import *
+import argparse
 
 
+class STLS1(object):
 
-/home/trex/Desktop/pcaps/SAT-01-12-2018_0750
+    def create_stream (self):
+        return STLStream( 
+            packet = 
+                    STLPktBuilder(
+                        pkt = Ether()/IP(src="16.0.0.1",dst="48.0.0.1")/
+                                UDP(dport=12,sport=1025)/(10*'x')
+                    ),
+             mode = STLTXCont())
 
-/stl-sim -f stl/pcap.py --yaml
+    def get_streams (self, tunables, **kwargs):
+        parser = argparse.ArgumentParser(description='Argparser for {}'.format(os.path.basename(__file__)), 
+                                         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        args = parser.parse_args(tunables)
+        # create 1 stream 
+        return [ self.create_stream() ]
 
+
+# dynamic load - used for trex console or simulator
+def register():
+    return STLS1()
+```
+
+```
+trex> start -f stl/udp_1pkt_simple.py -m 10mbps -a
+trex> streams -a
+trex> pause -a, resume -a, stop -a
+trex> tui : dynamic stats
+trex> portattr -a --prom on  : set promiscuous mode
+trex> stats --ps : port status
+```
+- GUI connection (JSON-RPC 2 client) 
+- Automation API (Python API):
+`stl-sim` is a program to automate testing. You can use it with the same profile file. Its usecases include: testing traffic profiles before running them, generating output PCAP file, converting stream profile to another type, convert any profile to json. The following command runs traffic profile through simulator, also limiting the number of packets to 10, and storing the output in a PCAP file.
+```bash
+./stl-sim -f stl/udp_1pkt_simple.py -o b.pcap -l 10
+```
+other profile output options: `--yaml`, `--json`, `--pkt`
+```bash
+./stl-sim -f stl/udp_1pkt_simple.py --json
+```
+for converting to native (python code) profile
+```bash
+./stl-sim -f my_yaml.yaml --native
+```
+In trex stateless, we can config operating ports in either l2 or l3 mode.
+- in l2 mode, you need to specify only destination MAC address
+- in l3 mode, you need to define both src and dest IPs.
 
 https://trex-tgn.cisco.com/trex/doc/trex_console.html
 
