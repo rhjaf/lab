@@ -7,11 +7,13 @@ In this guide, I will show you how to setup a traffic generator Centos Machine t
 
 Notice that because Trex uses DPDK, your network driver should also support PMD driver. for that you should modify `.vmx` file of that machine and change the `.virtualdev` of the designated NIC.eg: `ethernet1.virtualdev = "vmxnet3"`
 
-Download Trex
+Download last version  of TReX
 ```bash
 wget --no-check-certificate https://trex-tgn.cisco.com/trex/release/latest
 tar -xf latest
 ```
+Other releases with older DPDK versions, may be better. Also you may not be able to use Python API and Stateless GUI with new versions. Run the command `wget --no-cache https://trex-tgn.cisco.com/trex/release/vX.XX.tar.gz` to get other versions, where X.XX is major.minor (look at)[https://trex-tgn.cisco.com/trex/doc/release_notes.html]).
+
 You need install latest version of python3
 ```bash
 yum install python3
