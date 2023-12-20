@@ -12,7 +12,7 @@ Download last version  of TReX
 wget --no-check-certificate https://trex-tgn.cisco.com/trex/release/latest
 tar -xf latest
 ```
-Other releases with older DPDK versions, may be better. Also you may not be able to use Python API and Stateless GUI with new versions. Run the command `wget --no-cache https://trex-tgn.cisco.com/trex/release/vX.XX.tar.gz` to get other versions, where X.XX is major.minor (look at)[https://trex-tgn.cisco.com/trex/doc/release_notes.html]).
+Other releases with older DPDK versions, may be better. Also you may not be able to use Python API and Stateless GUI with new versions. Run the command `wget --no-cache https://trex-tgn.cisco.com/trex/release/vX.XX.tar.gz` to get other versions, where X.XX is major.minor [look at](https://trex-tgn.cisco.com/trex/doc/release_notes.html)).
 
 You need install latest version of python3
 ```bash
