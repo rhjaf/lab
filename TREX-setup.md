@@ -20,7 +20,8 @@ yum install python3
 ```
 You should get the PCI address of two NICs
 ```bash
-./dpdk_nic_bing.py --status
+./dpdk_nic_bind.py --status
+./dpdk_setup_ports.py -t
 ```
 Then you should configure the ports you wanna use for Trex
 ```bash
@@ -49,7 +50,7 @@ Setup trex in stateless mode and shows its interfaces:
 ```bash
 ./t-rex-64 --stl --dump-interfaces
 ```
-Run trex server in the background in another tab:
+Run trex server in the background in another tab (You can also use `-c 6` to specify cores):
 ```bash
 ./t-rex-64 -i
 ```
@@ -90,7 +91,7 @@ def register():
 ```
 
 ```
-trex> start -f stl/udp_1pkt_simple.py -m 10mbps -a
+trex> start -f stl/udp_1pkt_simple.py -m 10mbps -a ( # you can use -m 100% or --pin or -t size=64,vm=cached)
 trex> streams -a
 trex> pause -a, resume -a, stop -a
 trex> tui : dynamic stats
