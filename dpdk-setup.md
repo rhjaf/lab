@@ -114,18 +114,3 @@ dpdk-devbind -b igb_uio 0000:03:02.0
 ```bash
 dpdk-devbind.py -b vmxnet3 03:00.0
 ```
-### DPDK-testpmd
-testpmd is a application for configuring ethernet devices and displaying info about them.
-```bash
-dpdk-testpmd -c 0xf -n 4  -- -i --port-topology=chained --txq=16 --rxq=16
-```
-You can also run it in interactive mode by `-i` option. and then execute commands :
-
-show info about specific ports
-```bash
-show port info 1
-```
-set the rx queues for all of available ports
-```bash
-port config all rxd 2
-```
