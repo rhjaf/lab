@@ -12,3 +12,7 @@
 - ```bash ufonet -a victim_ip -r 10 -b victim_ip/resource_path```
   - `-b` means the concurrent connections of each bot
 - `./ufonet -s 'proxy.php?url=' --sa` : search all webservers through all search engines that contains specific strings. then you can check dork strings inside `botnets/dorsl.txt`.
+### SCAPY
+  ```python
+  p=Ether()/IP(src='',dst='')/RAW("x"*20)
+  ```
