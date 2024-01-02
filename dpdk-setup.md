@@ -114,3 +114,15 @@ dpdk-devbind -b igb_uio 0000:03:02.0
 ```bash
 dpdk-devbind.py -b vmxnet3 03:00.0
 ```
+### Server EFD nodes
+Run a server with 5 nodes
+```bash
+./server/build/server -- -p 0x3 -n 5
+```
+Run a node which is number 3
+```bash
+./build/node --proc-type=secondary -- -n 3
+```
+
+
+
