@@ -143,7 +143,10 @@ Deployment models:
 - Asymmetric/Non-peer processes: A single primary process acts as load-balancer for distributing packets among worker threads. `rte_ring` is used for that. eg: client_server_mp
 - Multiple independent applications: `--file-prefix`. They should explicitly limit their memory use. It is not a problem in linux. but if `--legacy-mem` is used, it can get all memory it get to and should be limited by `-m 3mb` to each process to specify how much hugepage can use. Or by passing `--socket-mem` to specify how much hugepage memory on each socket each process can use. Note that indepent DPDK instances can not share any network ports
 - Multiple Independent Groups
-Shared memory: The AL puts shared runtime files in /var/run/dpdk (if it is runned by root permission). Hugepage files use `rtemap_x` where x is from 0 to max number of hugpages. It also creates `.rte_config` file for each process to share config files and memory mapped
+
+#### Shared memory
+
+The EAL puts shared runtime files in /var/run/dpdk (if it is runned by root permission). Hugepage files use `rtemap_x` where x is from 0 to max number of hugpages. It also creates `.rte_config` file for each process to share config files and memory mapped
 
 limitations:
 - Disable ASLR to able to map memory
