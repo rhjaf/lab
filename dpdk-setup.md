@@ -156,3 +156,10 @@ limitations:
 - Depending upon the hardware in use, and the number of DPDK processes used, it may not be possible to have HPET timers available in each DPDK instance
 #### Communication between Multiple process
 DPDK IPC API is used as a convenient way for communicating via messages between primary and secondary messages. It supports **Unicast**: from secondary to primary and **Broadcast**: from primary to all secondaries. Any IPC message sent in a primary process will be delivered to all secondaries, while any IPC message sent in a secondary process will only be delivered to primary process. Unicast from primary to secondary or from secondary to secondary is not supported. There are three types of communication procedures includes: Message, Synchronous request, Asynchronous request. with which Message doesn't excpet respond (it is not two-way)
+
+### Distributor
+
+[GUIDE](https://doc.dpdk.org/guides/prog_guide/packet_distrib_lib.html)
+```bash
+./distributor_app -- -p 0x3 -c 0xff
+```
