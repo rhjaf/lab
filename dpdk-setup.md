@@ -123,6 +123,28 @@ Run a node which is number 3
 ```bash
 ./build/node --proc-type=secondary -- -n 3
 ```
+### Multi process  in DPDK
 
+[GUIDE](https://doc.dpdk.org/guides/prog_guide/multi_proc_support.html)
 
-
+Each application can have different permission on shared memory and huge pages.
+- primary process: which can initialize and which have full permissions on shared memory
+- secondary process: which cannot initialize shared memory, but can attach to pre- initialized shared memory and create objects in it
+Relative parameters:
+- `--proc-type`:
+- `--file-prefix`:  to allow processes that do not want to co-operate to have different memory regions.
+**NOTE**!! Secondary processes which require access to physical devices in the Primary process, must be passed with the same allow and block options. 
+Deployment models:
+- Symmetric/Peer processes: each process performs the same workload like having multiple threads each running the same main loop (like most DPDK sample applications). The first process spwaned using `--proc-type=primary` and the subsequent instances should be spawned by `--proc-type=secondary`. eg: simple_mp, symmetric_mp
+- Asymmetric/Non-peer processes: A single primary process acts as load-balancer for distributing packets among worker threads. `rte_ring` is used for that. eg: client_server_mp
+- Multiple independent applications: `--file-prefix`. They should explicitly limit their memory use. It is not a problem in linux. but if `--legacy-mem` is used, it can get all memory it get to and should be limited by `-m 3mb` to each process to specify how much hugepage can use. Or by passing `--socket-mem` to specify how much hugepage memory on each socket each process can use. Note that indepent DPDK instances can not share any network ports
+- Multiple Independent Groups
+Shared memory: The AL puts shared runtime files in /var/run/dpdk (if it is runned by root permission). Hugepage files use `rtemap_x` where x is from 0 to max number of hugpages. It also creates `.rte_config` file for each process to share config files and memory mapped 
+limitations:
+- Disable ASLR to able to map memory
+- All same shared memory DPDK processes should have distinict coremask arguments.
+- All Ethernet interrupts are triggered in Primary process.
+- The use of function pointers between multiple processes running based of different compiled binaries is not supported.
+- Depending upon the hardware in use, and the number of DPDK processes used, it may not be possible to have HPET timers available in each DPDK instance
+#### Communication between Multiple process
+DPDK IPC API is used as a convenient way for communicating via messages between primary and secondary messages. It supports **Unicast**: from secondary to primary and **Broadcast**: from primary to all secondaries. Any IPC message sent in a primary process will be delivered to all secondaries, while any IPC message sent in a secondary process will only be delivered to primary process. Unicast from primary to secondary or from secondary to secondary is not supported. There are three types of communication procedures includes: Message, Synchronous request, Asynchronous request. with which Message doesn't excpet respond (it is not two-way)
