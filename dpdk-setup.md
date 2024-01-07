@@ -5,6 +5,7 @@
 In this guide, I will show you how to setup a Ubuntu Machine that uses DPDK :two::two:.:one::one:.:one:.
 
 ## Requirements
+Physical device requirements for DPDK is [here](https://core.dpdk.org/supported/).
 
 Create additional interface so you can connect to internet from your VM and also may be able to SSH to it.
 Notice that you should properly change the type of virtual machine NICs that you want to attach DPDK on to `vmxnet3` ( in case if you are using VMware workstation). In VMware for doing that, you should modify `.vmx` file of that machine and change the `.virtualdev` of the designated NIC.eg: `ethernet1.virtualdev = "vmxnet3"`
