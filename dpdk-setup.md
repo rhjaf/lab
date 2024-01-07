@@ -10,7 +10,8 @@ Physical device requirements for DPDK is [here](https://core.dpdk.org/supported/
 Create additional interface so you can connect to internet from your VM and also may be able to SSH to it.
 Notice that you should properly change the type of virtual machine NICs that you want to attach DPDK on to `vmxnet3` ( in case if you are using VMware workstation). In VMware for doing that, you should modify `.vmx` file of that machine and change the `.virtualdev` of the designated NIC.eg: `ethernet1.virtualdev = "vmxnet3"`
 
-### platform: Ubuntu 22.04 on VMWare workstation with 6GB RAM, 4 cores, and 5 NICs (Recommended : 1 (management)+even).
+#### platform: 
+Ubuntu 22.04 on VMWare workstation with 6GB RAM, 4 cores, and 5 NICs (Recommended : 1 (management)+even).
 ## Commands
 ```bash
 sudo apt install net-tools git clang llvm gcc build-essential meson python3-pyelftools libnuma-dev pkgconf dpdk-kmods-dkms
