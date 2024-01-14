@@ -92,6 +92,9 @@ def register():
 
 ```
 trex> start -f stl/udp_1pkt_simple.py -m 10mbps -a ( # you can use -m 100% or --pin or -t size=64,vm=cached)
+another example:
+trex> start -f stl/bench.py -t size=128,vm=cached --port 0 -m 100% --
+
 trex> streams -a
 trex> pause -a, resume -a, stop -a
 trex> tui : dynamic stats
