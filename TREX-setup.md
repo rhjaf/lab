@@ -117,4 +117,9 @@ In trex stateless, we can config operating ports in either l2 or l3 mode.
 - in l3 mode, you need to define both src and dest IPs.
 
 https://trex-tgn.cisco.com/trex/doc/trex_console.html
+#### Sending large pcap files via stateless-TRex
+You should use **TRex 2.79**.
 
+Run TRex server : `./t-rex-64 -i`
+
+Now run `pyton3 final_remote.py`
