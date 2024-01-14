@@ -25,6 +25,8 @@ cd build
 sudo ninja install
 ldconfig
 ```
+You can check [here](https://github.com/rhjaf/lab/DPDK-build-output.txt) file for my DPDK installed flags, drivers, ....
+
 Check for compatible vfio (virtio-net)
 ```bash
 dpdk-devbind.py -s
