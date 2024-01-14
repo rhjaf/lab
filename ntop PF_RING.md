@@ -12,3 +12,8 @@ cd PF_RING/drivers/intel
 cd ixgbe/ixgbe-*-zc/src
 sudo ./load_driver.sh
 ```
+3- Run PF_RING with DPDK example:
+```bash
+cd /opt/PF_RING/userland/examples_ft/
+./ftflow_dpdk -- -v -7 -n 3 -p 0x2 (you can use -F option too)
+```
