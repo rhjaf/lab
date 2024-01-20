@@ -40,7 +40,7 @@ sudo ./t-rex-64 -f cap2/dns.yaml --cfg /etc/trex_cfg.yaml  -m 1 -d 10
 Finally, take some considerations:
  - We can also use the interface's name instead of MAC.
  - Low-end laptop. we can use threads assigned to specific cores.
-
+ - Each interface MAC if has not defined in `trex_cfg`, will be set hardware default
 ### TRex Stateless
 Start trex server with default `/etc/trex_cfg.yaml` config file (change it with `-c` option)
 ```bash
@@ -89,7 +89,6 @@ class STLS1(object):
 def register():
     return STLS1()
 ```
-
 ```
 trex> start -f stl/udp_1pkt_simple.py -m 10mbps -a ( # you can use -m 100% or --pin or -t size=64,vm=cached)
 another example:
@@ -120,9 +119,25 @@ In trex stateless, we can config operating ports in either l2 or l3 mode.
 - in l3 mode, you need to define both src and dest IPs.
 
 https://trex-tgn.cisco.com/trex/doc/trex_console.html
+
 #### Sending large pcap files via stateless-TRex
 You should use **TRex 2.79**.
 
 Run TRex server : `./t-rex-64 -i`
 
 Now run `pyton3 final_remote.py`
+
+### TRex interactive :
+
+```
+          | - - - - traffic_profile_1  - - - stream_1
+          |                             ...
+interface -                            - - - stream_3 : packet_template or Field_Engine
+          |
+          | - - - - traffic_profile_2
+```          
+- Each stream can be configure by mode (burst,...), rate, ...
+- `Service` mode is for abling to receive RX
+- modes: on, off, packet. In packets mode, we can define costumised packets
+- We even are able to capture packets by ports, using BPF syntax
+- `vm` option is for Field Engine.
