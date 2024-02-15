@@ -127,6 +127,10 @@ Run TRex server : `./t-rex-64 -i`
 
 Now run `pyton3 final_remote.py`
 
+Another way to send pcap file through a single port:
+```bash
+python3 /opt/v2.79/automation/trex_control_plane/interactive/trex/examples/stl/pcap_remote.py -f /home/trex/Desktop/SAT-03-11-2018_0137.pcap -p 0
+```
 ### TRex interactive :
 
 ```
