@@ -6,3 +6,7 @@ To replay pcap trrafic as many times you want:
 tcpreplay --multiplier
 Push -f pcap (from disk) -I (port) --times [how many time to repeat] --memory (load to memory) --min-ipg (usec )
 ```
+
+```bash
+tcpreplay -i ens160 -t -K --loop 1 my_pcap.pcap
+```
