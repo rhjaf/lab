@@ -1,7 +1,8 @@
 ### hping3
 - can also be used for scanning ports.
 - useful options: `--flood` `--rand-source` `-p ++80`
-- for smurf attack use `-S host_ip broadcast_range_mask`. 
+- for smurf attack use `-S host_ip broadcast_range_mask`.
+- UDP flood specific target with IP spoofing: ```hping3 -q -n -a 192.168.0.101 –udp -s 53 –keep -p 68 –flood 192.168.0.100```
 ### HTTP flooad attacks
 - HULK
 - LOIC: for more longer connections but also the rate of them is less than HULK. It actually waits some seconds for established connections and then send new requests.
